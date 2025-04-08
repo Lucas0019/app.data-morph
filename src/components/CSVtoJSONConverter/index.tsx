@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import "../../App.css";
+import { csvTemplate } from "../../template/csvTemplate";
 
 export const CSVtoJSONConverter = () => {
   const [json, setJson] = useState<any[] | null>(null);
@@ -113,28 +114,36 @@ export const CSVtoJSONConverter = () => {
     }
   };
 
+  const downloadTemplate = () => {
+    const blob = new Blob([csvTemplate], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "template.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <section className="container">
       <h2>Data Morph</h2>
+      <p className="description-app">Upload your CSV file:</p>
 
-      <label htmlFor="file-upload">Upload your CSV file:</label>
-      <input
-        ref={fileInputRef}
-        id="file-upload"
-        type="file"
-        accept=".csv"
-        onChange={handleFileUpload}
-        placeholder="Upload CSV file"
-      />
-
-      {error && (
-        <div className="error-message" style={{ marginBottom: "12px" }}>
-          <p style={{ color: "red", marginTop: "8px" }}>{error}</p>
+      <div className="json-box-inputs">
+        <div className="file-upload">
+          <input
+            ref={fileInputRef}
+            id="file-upload"
+            type="file"
+            accept=".csv"
+            onChange={handleFileUpload}
+            placeholder="Upload CSV file"
+          />
         </div>
-      )}
 
-      {(json || error) && (
-        <div className="json-box-inputs fade-in slide-up">
+        {(json || error) && (
+        <div className="json-box-cta fade-in slide-up">
           {json && (
             <button
               type="button"
@@ -150,6 +159,15 @@ export const CSVtoJSONConverter = () => {
           </button>
         </div>
       )}
+      </div>
+
+      {error && (
+        <div className="error-message" style={{ marginBottom: "12px" }}>
+          <p style={{ color: "red", marginTop: "8px" }}>{error}</p>
+        </div>
+      )}
+
+     
 
       <div className="json-box fade-in slide-up">
         <pre style={{ textAlign: "left" }}>
@@ -161,10 +179,20 @@ export const CSVtoJSONConverter = () => {
         <summary>⚠️ Attention:</summary>
         The CSV file must contain <strong>three columns</strong>:{" "}
         <code>gender</code>, <code>locale</code>, and <code>sizes</code>.<br />-
-        Multiple genders, because it can be in EN and IT should be separated by{" "}
+        Multiple genders, because it can be in EN and IT, should be separated by{" "}
         <strong>" / "</strong>.<br />- Multiple sizes should also be separated
-        by <strong>" / "</strong>.<br />- Maximum file size:{" "}
-        <strong>5MB</strong>.
+        by <strong>" / "</strong>. <br />- Only one
+        CSV file is allowed to be generated at a time, with a maximum size limit
+        of <strong>5MB</strong>.
+        <br />
+        <button
+          type="button"
+          className="download-btn"
+          onClick={downloadTemplate}
+          style={{ marginTop: "12px" }}
+        >
+          📥 Download CSV Template
+        </button>
       </details>
     </section>
   );

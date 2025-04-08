@@ -1,7 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem;
   text-align: center;
   width: 100%;
 }
@@ -58,7 +58,7 @@
   text-transform: uppercase;
 }
 
-.container label {
+.container .description-app {
   display: block;
   margin-bottom: 2rem;
   font-weight: 600;
@@ -67,8 +67,7 @@
 }
 
 .container input[type="file"] {
-  margin-bottom: 20px;
-  padding: 16px;
+  padding: 8px;
   border: 2px dashed #ccc;
   border-radius: 6px;
   cursor: pointer;
@@ -84,9 +83,11 @@
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 16px;
-  animation: fadeIn 0.5s ease, slideUp 0.5s ease;
+  align-items: center;
+  margin-bottom: 3rem;
 }
+
+
 
 .copy-btn, .clear-btn {
   padding: 8px 16px;
@@ -95,6 +96,7 @@
   cursor: pointer;
   font-weight: bold;
   transition: all 0.3s ease;
+  height: 40px;
 }
 
 .copy-btn {
@@ -130,12 +132,19 @@
   font-size: 14px;
   white-space: pre-wrap;
   word-break: break-word;
-  max-height: 400px;
-  min-height: 400px;
+  max-height: 380px;
+  min-height: 380px;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
 }
 
+
+.json-box-cta {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  animation: fadeIn 0.5s ease, slideInFromLeft 0.5s ease;
+}
 
 /* Animações */
 @keyframes fadeIn {
@@ -143,9 +152,9 @@
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); }
-  to { transform: translateY(0); }
+@keyframes slideInFromLeft {
+  from { transform: translateX(-20px); }
+  to { transform: translateX(0); }
 }
 
 
@@ -173,8 +182,7 @@
   width: fit-content;
   margin: 2rem auto;
   text-align: left;
-  width: 100%;
-  max-width: 800px;
+  width: auto;
 }
 
 .attention-message strong {
