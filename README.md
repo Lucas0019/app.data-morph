@@ -6,6 +6,9 @@
 
 Service application that converts a CSV data structure to JSON format, making it easier to register information in the Master Data (MD) under a specific field.
 
+![image](https://github.com/user-attachments/assets/7ebd36e9-45bf-4f44-9edb-5140603a74a7)
+
+
 ## Step 1
 
 To use the app, you just need to have the file with the CSV table of the table you want to import, and the JSON file that will be generated.
