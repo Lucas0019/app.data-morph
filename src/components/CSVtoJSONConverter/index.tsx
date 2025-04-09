@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import "../../App.css";
 import { csvTemplate } from "../../template/csvTemplate";
 
 export const CSVtoJSONConverter = () => {
