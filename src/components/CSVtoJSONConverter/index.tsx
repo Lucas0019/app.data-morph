@@ -25,22 +25,17 @@ export const CSVtoJSONConverter = () => {
       }
 
       const genderList = values[0]
-        .split(" / ")
+        .split("|")
         .map((g) => g.trim().toLowerCase());
+
       const genderKey = [...genderList]
         .sort((a, b) => a.localeCompare(b))
         .join("|");
       const locale = values[1].trim().toLowerCase();
-      const sizeStrings = values[2].split(" / ");
-      const sizes = sizeStrings.map((size) => {
-        const parsed = Number(size.trim());
-        if (isNaN(parsed)) {
-          throw new Error(
-            `Oops! There's an invalid size on line ${i + 1}: "${size}". Please make sure all size values are numbers only (e.g., 36, 38.5, 42).`
-          );
-        }
-        return parsed;
-      });
+      const sizeStrings = values[2].split(" | ");
+      const sizes = sizeStrings
+        .map((size) => size.trim())
+        .filter((size) => size.length > 0);
 
       if (!genderMap.has(genderKey)) {
         const genderObj = { gender: genderList, fields: [] };
@@ -143,22 +138,22 @@ export const CSVtoJSONConverter = () => {
         </div>
 
         {(json || error) && (
-        <div className="json-box-cta fade-in slide-up">
-          {json && (
-            <button
-              type="button"
-              className={`copy-btn ${copied ? "copied" : "Copy JSON"}`}
-              onClick={copyToClipboard}
-            >
-              {copied ? "Copied!" : "Copy JSON"}
-            </button>
-          )}
+          <div className="json-box-cta fade-in slide-up">
+            {json && (
+              <button
+                type="button"
+                className={`copy-btn ${copied ? "copied" : "Copy JSON"}`}
+                onClick={copyToClipboard}
+              >
+                {copied ? "Copied!" : "Copy JSON"}
+              </button>
+            )}
 
-          <button type="button" className="clear-btn" onClick={clearData}>
-            Clear Data
-          </button>
-        </div>
-      )}
+            <button type="button" className="clear-btn" onClick={clearData}>
+              Clear Data
+            </button>
+          </div>
+        )}
       </div>
 
       {error && (
@@ -166,8 +161,6 @@ export const CSVtoJSONConverter = () => {
           <p style={{ color: "red", marginTop: "8px" }}>{error}</p>
         </div>
       )}
-
-     
 
       <div className="json-box fade-in slide-up">
         <pre style={{ textAlign: "left" }}>
@@ -180,10 +173,9 @@ export const CSVtoJSONConverter = () => {
         The CSV file must contain <strong>three columns</strong>:{" "}
         <code>gender</code>, <code>locale</code>, and <code>sizes</code>.<br />-
         Multiple genders, because it can be in EN and IT, should be separated by{" "}
-        <strong>" / "</strong>.<br />- Multiple sizes should also be separated
-        by <strong>" / "</strong>. <br />- Only one
-        CSV file is allowed to be generated at a time, with a maximum size limit
-        of <strong>5MB</strong>.
+        <strong>" | "</strong>.<br />- Multiple sizes should also be separated
+        by <strong>" | "</strong>. <br />- Only one CSV file is allowed to be
+        generated at a time, with a maximum size limit of <strong>5MB</strong>.
         <br />
         <button
           type="button"
